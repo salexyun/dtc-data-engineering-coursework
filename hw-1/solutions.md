@@ -129,9 +129,10 @@ FROM
   taxi_zone_lookup zdo
 WHERE
   t."PULocationID" = zpu."LocationID" AND
-  t."DOLocationID" = zdo."LocationID"
+  t."DOLocationID" = zdo."LocationID" AND
+  zpu."Zone"='Central Park' AND
+  t.tpep_pickup_datetime::date='2021-01-14'
 GROUP BY 1, 2
-HAVING zpu."Zone"='Central Park'
 ORDER BY "count" DESC
 LIMIT 1;
 ```
@@ -139,11 +140,8 @@ LIMIT 1;
 * Alphabet City / Unknown
 ```
 SELECT
-  zpu."Zone" as "pickup_zone",
-  zdo."Zone" as "dropoff_zone",
-  SUM(total_amount) as "earnings",
-  COUNT(1) as "count",
-  SUM(total_amount)/COUNT(1) as "avg_price"
+  CONCAT(COALESCE(zpu."Zone", 'Unknown'), ' / ', COALESCE(zdo."Zone", 'Unknown')) as "pickup_dropff",
+  AVG(total_amount) as "avg_price"
 FROM
   yellow_taxi_trip t,
   taxi_zone_lookup zpu,
@@ -151,7 +149,7 @@ FROM
 WHERE
   t."PULocationID" = zpu."LocationID" AND
   t."DOLocationID" = zdo."LocationID"
-GROUP BY 1, 2
+GROUP BY 1
 ORDER BY "avg_price" DESC
 LIMIT 1;
 ```

@@ -62,3 +62,28 @@ docker run -it \
     --table_name=taxi_zone_lookup \
     --url=${URL}
 ```
+
+## Docker-Compose 
+```bash
+docker-compose up
+```
+
+To run in detached mode:
+```bash
+docker-compose up -d
+```
+
+Shutting it down:
+```bash
+docker-compose down
+```
+
+Note: to make pgAdmin configuration persistent, mount a volume to the `/var/lib/pgadmin` folder:
+```yaml
+services:
+  pgadmin:
+    image: dpage/pgadmin4
+    volumes:
+      - ./data_pgadmin:/var/lib/pgadmin
+    ...
+```
