@@ -1,3 +1,14 @@
-/nyc_taxi_data_postgres
 .DS_Store
+.history
+.idea
+.ipynb_checkpoints/
+*.tfstate
+*.tfstate.*
+**.terraform
+**.terraform.lock.*
 *.csv
+**google_credentials.json
+**logs/
+**.env
+**__pycache__/
+**/nyc_taxi_data_postgres/*
